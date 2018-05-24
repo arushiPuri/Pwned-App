@@ -1,0 +1,49 @@
+<!--New App named pwnedApp -->
+<html ng-app="pwnedApp">
+<!--Fetching bootstrap and angular libraries -->
+<head>
+  <script src = "https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <link type="text/css" rel="stylesheet" href = "https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"></link>
+  <script src = "https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src = "https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+  <script src = "myPwnedApp.js"></script>
+  <link type="text/css" rel="stylesheet" href = "myPwnedApp.css"></link>
+  <title>Check if your Email ID has been Hacked</title>
+
+</head>
+<!-- "ctrl" is the name of the controller used in our body.-->
+<body ng-controller="ctrl">
+  <form>
+    <br>
+    <!--First text box has a required type of "email". This states that the data entered in this text box should be a valid email id.-->
+  <input required type = "email" ng-model = "email" placeholder="Enter Email">
+  <!-- Input type submit creates a button which can be submitted. Whenever this button is clicked, function crossCheck is called.
+  This button is disabled till the user enters a valid email. -->
+  <input type = "submit" ng-click = "crossCheck()" ng-disabled="!email">
+  <br>
+  <!-- A checkbox is created. The name of the checkbox is includeUnverified and it is used for includeUnverified only. -->
+  <label for="includeUnverified">Include Unverified</label><input name="includeUnverified" type="checkbox" ng-model = "includeUnverified">
+</form>
+<!--A table is created to display breachedData-->
+<table ng-show="breachedData">
+  <!--Style is set to bold and the first row will consist of Title, Name, Domain and Description.-->
+  <tr style='font-weight:bold'>
+    <td> Title </td>
+    <td> Name </td>
+    <td> Domain </td>
+    <td> Description </td>
+  </tr>
+  <!--breachedData is displayed one by one in each row by looping it through ng-repeat. The data which is not verified is red in color.-->
+  <tr ng-repeat="data in breachedData" ng-class="{red: !data.IsVerified}">
+    <!--The Title is displayed in the table.-->
+    <td>{{data.Title}}</td>
+    <!--The Name is displayed in the table.-->
+    <td>{{data.Name}}</td>
+    <!--The Domain is displayed in the table, when the Domain is not found, "No Domain Found" is displayed in purple color.-->
+    <td ng-class="{purple: !data.Domain}"> {{data.Domain ? data.Domain : "No Domain Found"}} </td>
+    <!--The Description is displayed in the table only uptil 20 letters.-->
+    <td>{{data.Description | limitTo: 100}}</td>
+  </tr>
+</table>
+</body>
+</html>
